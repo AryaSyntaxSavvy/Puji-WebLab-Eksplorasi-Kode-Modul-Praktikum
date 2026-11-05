@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puji WebLab – Eksplorasi Kode & Modul Praktikum</title>
+    <!-- Font Retro & Modern -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-sub: #e2e8f0;
+            --border-color: #1e293b;
+            --blue-primary: #2563eb;
+            --blue-hover: #1d4ed8;
+            --blue-light: #60a5fa;
+            --blue-accent: #38bdf8;
+            --gray-dark: #0f172a;
+            --gray-text: #334155;
+            --gray-muted: #64748b;
+            --gray-border: #94a3b8;
+            --shadow-pixel: 4px 4px 0px #1e293b;
+            --shadow-pixel-lg: 6px 6px 0px #1e293b;
+            --font-pixel: 'Press Start 2P', cursive;
+            --font-body: 'Space Grotesk', sans-serif;
+            --font-code: 'Fira Code', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-main);
+            color: var(--gray-dark);
+            line-height: 1.6;
+            padding-bottom: 3rem;
+            overflow-x: hidden;
+        }
+
+        /* 8-Bit Marquee Top Banner */
+        .top-marquee {
+            background-color: var(--blue-primary);
+            color: #ffffff;
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-bottom: 3px solid var(--border-color);
+        }
+
+        .top-marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Animated Sky Header */
+        .sky-header {
+            background: linear-gradient(180deg, #93c5fd 0%, #cbd5e1 100%);
+            border-bottom: 4px solid var(--border-color);
+            position: relative;
+            padding: 2rem 1rem 3rem 1rem;
+            overflow: hidden;
+        }
+
+        /* Moving Pixel Clouds */
+        .cloud {
+            position: absolute;
+            background: #ffffff;
+            border: 3px solid var(--border-color);
+            box-shadow: inset -4px -4px 0px #cbd5e1;
+            border-radius: 8px;
+            opacity: 0.9;
+            z-index: 1;
+            animation: moveCloud linear infinite;
+        }
+
+        .cloud1 { width: 90px; height: 35px; top: 15%; animation-duration: 25s; }
+        .cloud2 { width: 130px; height: 45px; top: 45%; animation-duration: 38s; animation-delay: -10s; }
+        .cloud3 { width: 70px; height: 30px; top: 25%; animation-duration: 18s; animation-delay: -5s; }
+
+        @keyframes moveCloud {
+            from { left: -150px; }
+            to { left: 100vw; }
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Retro Arcade HUD */
+        .arcade-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background-color: var(--bg-card);
+            border: 4px solid var(--border-color);
+            box-shadow: var(--shadow-pixel);
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-pixel);
+            font-size: 0.8rem;
+        }
+
+        .hud-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hud-label {
+            color: var(--blue-primary);
+            font-size: 0.65rem;
+        }
+
+        .hud-val {
+            color: var(--gray-dark);
+        }
+
+        /* Interactive Question Block & Mario */
+        .mario-header-stage {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            border: 4px solid var(--border-color);
+            box-shadow: var(--shadow-pixel-lg);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .header-title-box h1 {
+            font-family: var(--font-pixel);
+            font-size: 1.3rem;
+            color: var(--blue-primary);
+            text-shadow: 2px 2px 0px #cbd5e1;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-title-box p {
+            font-size: 0.95rem;
+            color: var(--gray-text);
+            font-weight: 600;
+        }
+
+        .mario-interactive-area {
+            display: flex;
+            align-items: flex-end;
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .pixel-sprite {
+            width: 48px;
+            height: 48px;
+            image-rendering: pixelated;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        .pixel-sprite:hover {
+            transform: scale(1.1);
+        }
+
+        .question-block {
+            width: 52px;
+            height: 52px;
+            background-color: #f59e0b;
+            border: 4px solid var(--border-color);
+            box-shadow: inset -4px -4px 0px #b45309, 3px 3px 0px var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-pixel);
+            font-size: 1.5rem;
+            color: #ffffff;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            animation: pulseBlock 2s infinite alternate;
+        }
+
+        @keyframes pulseBlock {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-4px); }
+        }
+
+        .question-block.hit {
+            animation: bumpBlock 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: #64748b;
+            box-shadow: inset -4px -4px 0px #334155, 3px 3px 0px var(--border-color);
+        }
+
+        @keyframes bumpBlock {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-16px); }
+            100% { transform: translateY(0); }
+        }
+
+        .coin-popup {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            color: #d97706;
+            font-weight: bold;
+            pointer-events: none;
+            animation: floatUpCoin 0.6s ease-out forwards;
+        }
+
+        @keyframes floatUpCoin {
+            0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -40px) scale(1.3); }
+        }
+
+        /* Main Grid Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Retro Cards */
+        .retro-card {
+            background-color: var(--bg-card);
+            border: 4px solid var(--border-color);
+            box-shadow: var(--shadow-pixel);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .retro-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .retro-card-title {
+            font-family: var(--font-pixel);
+            font-size: 0.85rem;
+            color: var(--blue-primary);
+            text-transform: uppercase;
+        }
+
+        /* Profile Card */
+        .profile-avatar-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.25rem auto;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 4px solid var(--border-color);
+            box-shadow: 4px 4px 0px var(--blue-primary);
+            border-radius: 8px;
+            background-color: var(--bg-sub);
+        }
+
+        .avatar-upload-btn {
+            position: absolute;
+            bottom: -8px;
+            right: -8px;
+            background: var(--blue-primary);
+            color: #ffffff;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            box-shadow: 2px 2px 0px var(--border-color);
+        }
+
+        .profile-info {
+            text-align: center;
+        }
+
+        .profile-name {
+            font-family: var(--font-pixel);
+            font-size: 0.95rem;
+            color: var(--gray-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-nim {
+            display: inline-block;
+            background-color: var(--blue-primary);
+            color: #ffffff;
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            border: 2px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+
+        .profile-detail-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: left;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .profile-detail-list li {
+            padding: 6px 10px;
+            background: var(--bg-sub);
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 8-Bit Music Player Card */
+        .audio-player-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .song-title-display {
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            background: var(--gray-dark);
+            color: #38bdf8;
+            padding: 8px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-retro {
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            padding: 8px 12px;
+            background-color: var(--bg-card);
+            color: var(--gray-dark);
+            border: 3px solid var(--border-color);
+            box-shadow: 3px 3px 0px var(--border-color);
+            cursor: pointer;
+            transition: all 0.1s ease;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-retro:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px var(--border-color);
+            background-color: var(--bg-sub);
+        }
+
+        .btn-retro:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px var(--border-color);
+        }
+
+        .btn-blue {
+            background-color: var(--blue-primary);
+            color: #ffffff;
+        }
+        .btn-blue:hover {
+            background-color: var(--blue-hover);
+        }
+
+        .btn-gray {
+            background-color: var(--bg-sub);
+            color: var(--gray-dark);
+        }
+
+        .equalizer-bar-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            height: 24px;
+            background: var(--bg-sub);
+            border: 2px solid var(--border-color);
+            padding: 4px;
+        }
+
+        .eq-bar {
+            width: 8px;
+            height: 20%;
+            background-color: var(--blue-primary);
+            transition: height 0.15s ease;
+        }
+
+        .eq-bar.active {
+            animation: eqAnim 0.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes eqAnim {
+            0% { height: 25%; }
+            100% { height: 100%; }
+        }
+
+        /* Navigation Bar Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            font-family: var(--font-pixel);
+            font-size: 0.7rem;
+            padding: 10px 16px;
+            background-color: var(--bg-card);
+            color: var(--gray-dark);
+            border: 3px solid var(--border-color);
+            box-shadow: var(--shadow-pixel);
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .tab-btn.active {
+            background-color: var(--blue-primary);
+            color: #ffffff;
+            box-shadow: inset 2px 2px 0px rgba(0,0,0,0.2);
+            transform: translate(2px, 2px);
+        }
+
+        /* Search Filter */
+        .search-box {
+            width: 100%;
+            padding: 10px 14px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            border: 3px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-pixel);
+            background-color: var(--bg-card);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--blue-primary);
+        }
+
+        /* Code & Output Layout */
+        .code-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 800px) {
+            .code-split {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .code-panel {
+            background-color: var(--gray-dark);
+            border: 3px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 4px 4px 0px var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .code-header {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 8px 12px;
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gray-border);
+        }
+
+        .code-editor-wrap {
+            display: flex;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .line-numbers {
+            background-color: #0f172a;
+            color: #64748b;
+            padding: 12px 8px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            text-align: right;
+            user-select: none;
+            border-right: 1px solid #334155;
+        }
+
+        .code-block {
+            background-color: #0f172a;
+            color: #f1f5f9;
+            padding: 12px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            white-space: pre;
+            overflow-x: auto;
+            flex-grow: 1;
+            margin: 0;
+        }
+
+        .explanation-panel {
+            background-color: var(--bg-sub);
+            border: 3px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            box-shadow: 4px 4px 0px var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .explanation-panel h4 {
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            color: var(--blue-primary);
+            margin-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.4rem;
+        }
+
+        .explanation-panel ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .explanation-panel li {
+            position: relative;
+            padding-left: 1.25rem;
+            color: var(--gray-text);
+        }
+
+        .explanation-panel li::before {
+            content: "🍄";
+            position: absolute;
+            left: 0;
+            font-size: 0.8rem;
+        }
+
+        .output-box {
+            margin-top: 1.25rem;
+            background-color: var(--bg-card);
+            border: 3px dashed var(--blue-primary);
+            border-radius: 6px;
+            padding: 1.25rem;
+            box-shadow: 4px 4px 0px var(--bg-sub);
+        }
+
+        .output-title {
+            font-family: var(--font-pixel);
+            font-size: 0.7rem;
+            color: var(--gray-dark);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Toast Alert */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--blue-primary);
+            color: #ffffff;
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            padding: 12px 20px;
+            border: 3px solid var(--border-color);
+            box-shadow: var(--shadow-pixel);
+            border-radius: 4px;
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Animated Footer Characters */
+        .footer-world {
+            margin-top: 3rem;
+            background-color: var(--bg-card);
+            border-top: 4px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sprite-walker {
+            display: inline-block;
+            font-size: 1.5rem;
+            animation: walkRight 15s linear infinite;
+        }
+
+        @keyframes walkRight {
+            0% { transform: translateX(-50vw); }
+            100% { transform: translateX(50vw); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 8-Bit Marquee Top Banner -->
+    <div class="top-marquee">
+        <div class="top-marquee-content">
+            ★ WELCOME TO PUJI WEBLAB WORLD ★ PROGRAMMING MODULE & INTERACTIVE SHOWCASE ★ SISTEM INFORMASI UNIVERSITAS PAMULANG 2026 ★
+        </div>
+    </div>
+
+    <!-- Sky Header with Moving Clouds & Interactive Stage -->
+    <header class="sky-header">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+
+        <div class="container">
+            <!-- Arcade HUD Bar -->
+            <div class="arcade-hud">
+                <div class="hud-item">
+                    <span class="hud-label">PLAYER 1</span>
+                    <span class="hud-val">PUJI DAMAYANTI</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">SCORE / NIM</span>
+                    <span class="hud-val">251091700192</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">WORLD</span>
+                    <span class="hud-val">1 - 21</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">LIVES</span>
+                    <span class="hud-val" style="color: #ef4444;">♥♥♥</span>
+                </div>
+            </div>
+
+            <!-- Title Box & Interactive Stage -->
+            <div class="mario-header-stage">
+                <div class="header-title-box">
+                    <h1>PUJI WEBLAB – Eksplorasi Kode & Modul Praktikum</h1>
+                    <p>Modul Praktikum & Showcase Pemrograman Web (Pertemuan 1 - 21)</p>
+                </div>
+
+                <div class="mario-interactive-area">
+                    <!-- Mario Character Sprite -->
+                    <div class="pixel-sprite" id="marioSprite" title="Klik Mario untuk melompat!" onclick="jumpMario()">
+                        <svg width="48" height="48" viewBox="0 0 16 16" fill="none">
+                            <rect x="5" y="1" width="6" height="2" fill="#ef4444"/>
+                            <rect x="4" y="3" width="9" height="1" fill="#ef4444"/>
+                            <rect x="4" y="4" width="3" height="2" fill="#78350f"/>
+                            <rect x="7" y="4" width="2" height="2" fill="#fde047"/>
+                            <rect x="4" y="6" width="7" height="1" fill="#78350f"/>
+                            <rect x="3" y="7" width="9" height="3" fill="#2563eb"/>
+                            <rect x="2" y="10" width="11" height="3" fill="#ef4444"/>
+                            <rect x="4" y="13" width="3" height="2" fill="#78350f"/>
+                            <rect x="8" y="13" width="3" height="2" fill="#78350f"/>
+                        </svg>
+                    </div>
+
+                    <!-- Question Mark Block -->
+                    <div class="question-block" id="questionBlock" onclick="hitQuestionBlock()">
+                        ?
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container">
+        <div class="main-layout">
+            
+            <!-- LEFT SIDEBAR: PROFILE & MUSIC PLAYER -->
+            <aside>
+                <!-- Profile Card Puji Damayanti -->
+                <div class="retro-card">
+                    <div class="retro-card-header">
+                        <span style="font-size: 1.2rem;">👨‍💻</span>
+                        <h2 class="retro-card-title">PLAYER 1 PROFILE</h2>
+                    </div>
+
+                    <div class="profile-avatar-wrapper">
+                        <img id="profileImgDisplay" src="WhatsApp Image 2023-10-10 at 10.34.56.jpeg" alt="Foto Puji Damayanti" class="profile-img">
+                        <label for="profileUploadInput" class="avatar-upload-btn" title="Ubah Foto Profil">
+                            📷
+                        </label>
+                        <input type="file" id="profileUploadInput" accept="image/*" style="display: none;" onchange="handleProfilePhotoUpload(event)">
+                    </div>
+
+                    <div class="profile-info">
+                        <h3 class="profile-name">PUJI DAMAYANTI</h3>
+                        <span class="profile-nim">NIM: 251091700192</span>
+
+                        <ul class="profile-detail-list">
+                            <li><span>Prodi:</span> <strong>Sistem Informasi</strong></li>
+                            <li><span>Kampus:</span> <strong>Universitas Pamulang</strong></li>
+                            <li><span>Kelas:</span> <strong>03SISP004</strong></li>
+                            <li><span>Status:</span> <strong style="color: #16a34a;">ONLINE ✨</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 8-Bit Audio & MP3 Music Player -->
+                <div class="retro-card">
+                    <div class="retro-card-header">
+                        <span style="font-size: 1.2rem;">🎵</span>
+                        <h2 class="retro-card-title">MUSIC PLAYER</h2>
+                    </div>
+
+                    <div class="audio-player-box">
+                        <div class="song-title-display" id="songTitleDisplay">
+                            🎵 Taylor Swift - Cruel Summer
+                        </div>
+
+                        <!-- Equalizer Visualizer -->
+                        <div class="equalizer-bar-container" id="eqContainer">
+                            <div class="eq-bar"></div>
+                            <div class="eq-bar"></div>
+                            <div class="eq-bar"></div>
+                            <div class="eq-bar"></div>
+                            <div class="eq-bar"></div>
+                            <div class="eq-bar"></div>
+                        </div>
+
+                        <div class="audio-controls">
+                            <button class="btn-retro btn-blue" id="playAudioBtn" onclick="toggleAudioPlay()">▶ PLAY</button>
+                            <button class="btn-retro btn-gray" onclick="stopAudioPlay()">⏹ STOP</button>
+                        </div>
+
+                        <!-- Audio Upload & External MP3 Link -->
+                        <div style="margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label for="mp3FileInput" class="btn-retro btn-gray" style="text-align: center; justify-content: center;">
+                                📁 UNGGAH MP3 LOKAL
+                            </label>
+                            <input type="file" id="mp3FileInput" accept="audio/*" style="display: none;" onchange="handleMp3Upload(event)">
+
+                            <input type="text" id="mp3UrlInput" placeholder="Atau Tempel URL MP3..." class="search-box" style="margin: 0; padding: 6px 10px; font-size: 0.8rem;" onchange="handleMp3UrlChange(this.value)">
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- RIGHT CONTENT: MODULE SHOWCASE & CODING -->
+            <section>
+                <!-- Navigation Tabs -->
+                <div class="nav-tabs">
+                    <button class="tab-btn active" onclick="switchTab('world1', this)">WORLD 1 (Pert. 1-6)</button>
+                    <button class="tab-btn" onclick="switchTab('world2', this)">WORLD 2 (Pert. 7-10)</button>
+                    <button class="tab-btn" onclick="switchTab('world3', this)">WORLD 3 (Pert. 11-21)</button>
+                </div>
+
+                <!-- Search Input -->
+                <input type="text" id="searchModuleInput" class="search-box" placeholder="🔍 Cari modul praktikum atau materi coding..." onkeyup="filterModules()">
+
+                <!-- TAB 1: PERTEMUAN 1 - 6 -->
+                <div id="world1" class="tab-content">
+                    
+                    <!-- Pertemuan 2: Tag & Heading HTML -->
+                    <div class="retro-card module-card">
+                        <div class="retro-card-header">
+                            <span style="font-size: 1.2rem;">⭐</span>
+                            <h3 class="retro-card-title">Pertemuan 2: Tag, Heading & Marquee HTML</h3>
+                        </div>
+                        <p>Struktur dasar HTML untuk menyusun teks, judul heading, background warna, serta animasi marquee.</p>
+
+                        <div class="code-split">
+                            <div class="code-panel">
+                                <div class="code-header">
+                                    <span>HTML CODE</span>
+                                    <button class="btn-retro btn-blue" style="padding: 2px 6px; font-size: 0.55rem;" onclick="copyCode(this)">SALIN</button>
+                                </div>
+                                <div class="code-editor-wrap">
+                                    <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+                                    <pre class="code-block"><code>&lt;html&gt;
+&lt;body bgcolor="#f1f5f9" text="#1e293b"&gt;
+  &lt;h1 align="center"&gt;Halo Puji Damayanti!&lt;/h1&gt;
+  &lt;p&gt;Ini script HTML pertamaku di UNPAM.&lt;/p&gt;
+  &lt;marquee bgcolor="#2563eb" style="color:#fff;"&gt;Udah masuk Pertemuan 2 nih. Kalau pacar aja bisa ngilang, semoga tag HTML penutup di web ini nggak ikut-ikutan ngilang, ya!&lt;/marquee&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="explanation-panel">
+                                <h4>LOGIKA & PENJELASAN</h4>
+                                <ul>
+                                    <li><strong>&lt;h1 align="center"&gt;:</strong> Heading judul utama berukuran paling besar di posisi tengah.</li>
+                                    <li><strong>bgcolor & text:</strong> Atribut pengatur warna background dan warna font dasar.</li>
+                                    <li><strong>&lt;marquee&gt;:</strong> Tag animasi untuk membuat teks berjalan secara horizontal.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="output-title" style="margin-top: 1.25rem;">SIMULASI LIVE OUTPUT:</div>
+                        <div class="output-box" style="background: #f1f5f9; color: #1e293b;">
+                            <h2 align="center" style="font-size: 1.2rem; color: #2563eb;">Halo Puji Damayanti!</h2>
+                            <p style="text-align: center;">Ini script HTML pertamaku di UNPAM.</p>
+                            <marquee bgcolor="#2563eb" style="color:#ffffff; font-family: monospace; padding: 4px; border-radius: 4px; margin-top: 8px;">Udah masuk Pertemuan 2 nih. Kalau pacar aja bisa ngilang, semoga tag HTML penutup di web ini nggak ikut-ikutan ngilang, ya!</marquee>
+                        </div>
+                    </div>
+
+                    <!-- Pertemuan 5 & 6: Form & Percabangan Nilai IPK -->
+                    <div class="retro-card module-card">
+                        <div class="retro-card-header">
+                            <span style="font-size: 1.2rem;">🍄</span>
+                            <h3 class="retro-card-title">Pertemuan 5 & 6: Evaluasi Nilai Belajar (IF-ELSE)</h3>
+                        </div>
+                        <p>Kalkulasi nilai akhir berbobot (Kuis 30% + Tugas 70%) dengan penentuan predikat IP menggunakan logika percabangan.</p>
+
+                        <div class="code-split">
+                            <div class="code-panel">
+                                <div class="code-header">
+                                    <span>JAVASCRIPT CODE</span>
+                                    <button class="btn-retro btn-blue" style="padding: 2px 6px; font-size: 0.55rem;" onclick="copyCode(this)">SALIN</button>
+                                </div>
+                                <div class="code-editor-wrap">
+                                    <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+                                    <pre class="code-block"><code>function hitungIPK(kuis, tugas) {
+  var na = (0.3 * kuis) + (0.7 * tugas);
+  if (na >= 80) return "A (Sangat Baik)";
+  else if (na >= 65) return "B (Baik)";
+  else if (na >= 50) return "C (Cukup)";
+  else return "E (Tidak Lulus)";
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="explanation-panel">
+                                <h4>LOGIKA & PENJELASAN</h4>
+                                <ul>
+                                    <li><strong>0.3 * kuis:</strong> Perhitungan bobot 30% untuk komponen kuis.</li>
+                                    <li><strong>0.7 * tugas:</strong> Perhitungan bobot 70% untuk komponen tugas.</li>
+                                    <li><strong>if / else if:</strong> Seleksi kondisi bertingkat menentukan nilai mutu A, B, C, atau E.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="output-title" style="margin-top: 1.25rem;">KALKULATOR NILAI INTERAKTIF PUJI:</div>
+                        <div class="output-box">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 450px; margin: 0 auto;">
+                                <div>
+                                    <label style="font-weight: bold; font-size: 0.85rem;">Nilai Kuis (30%):</label>
+                                    <input type="number" id="kuisInput" class="search-box" style="margin-top: 4px; padding: 6px;" value="85">
+                                </div>
+                                <div>
+                                    <label style="font-weight: bold; font-size: 0.85rem;">Nilai Tugas (70%):</label>
+                                    <input type="number" id="tugasInput" class="search-box" style="margin-top: 4px; padding: 6px;" value="90">
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 1rem;">
+                                <button class="btn-retro btn-blue" onclick="runIpkSim()">HITUNG PREDIKAT</button>
+                            </div>
+                            <div id="ipkResultBox" style="margin-top: 1rem; text-align: center; font-family: var(--font-pixel); font-size: 0.8rem; color: var(--blue-primary); display: none;">
+                                PREDIKAT: <span id="ipkText"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- TAB 2: PERTEMUAN 7 - 10 -->
+                <div id="world2" class="tab-content" style="display: none;">
+                    
+                    <!-- Pertemuan 8: JS Pop-Up Dialogs -->
+                    <div class="retro-card module-card">
+                        <div class="retro-card-header">
+                            <span style="font-size: 1.2rem;">💬</span>
+                            <h3 class="retro-card-title">Pertemuan 8: Dialog Pop-Up JavaScript</h3>
+                        </div>
+                        <p>Menggunakan modul dialog `prompt()`, `confirm()`, dan `alert()` untuk menangkap masukan dan konfirmasi interaktif.</p>
+
+                        <div class="code-split">
+                            <div class="code-panel">
+                                <div class="code-header">
+                                    <span>JS POPUP CODE</span>
+                                    <button class="btn-retro btn-blue" style="padding: 2px 6px; font-size: 0.55rem;" onclick="copyCode(this)">SALIN</button>
+                                </div>
+                                <div class="code-editor-wrap">
+                                    <div class="line-numbers">1<br>2<br>3<br>4</div>
+                                    <pre class="code-block"><code>var nama = prompt("Masukkan nama Anda:");
+if (confirm("Hai " + nama + ", siap belajar Mario Code?")) {
+  alert("Selamat Datang di World 2!");
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="explanation-panel">
+                                <h4>LOGIKA & PENJELASAN</h4>
+                                <ul>
+                                    <li><strong>prompt():</strong> Membuka kotak pengisian teks interaktif.</li>
+                                    <li><strong>confirm():</strong> Pilihan konfirmasi logis OK (True) atau Batal (False).</li>
+                                    <li><strong>alert():</strong> Jendela notifikasi pesan satu arah.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="output-title" style="margin-top: 1.25rem;">UJI DIALOG INTERAKTIF:</div>
+                        <div class="output-box" style="text-align: center;">
+                            <button class="btn-retro btn-blue" onclick="runDialogDemo()">TEST POPUP DIALOG</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- TAB 3: PERTEMUAN 11 - 21 -->
+                <div id="world3" class="tab-content" style="display: none;">
+                    
+                    <!-- Pertemuan 12 & 18: Jam Realtime & Timer -->
+                    <div class="retro-card module-card">
+                        <div class="retro-card-header">
+                            <span style="font-size: 1.2rem;">⏰</span>
+                            <h3 class="retro-card-title">Pertemuan 12 & 18: Jam Digital Realtime</h3>
+                        </div>
+                        <p>Mengambil instansi `new Date()` dan memperbarui waktu secara otomatis setiap detik dengan `setTimeout()`.</p>
+
+                        <div class="output-title">JAM DIGITAL REALTIME:</div>
+                        <div class="output-box" style="text-align: center; background-color: var(--gray-dark); color: var(--blue-accent); font-family: var(--font-pixel); font-size: 1.5rem; padding: 1.5rem;">
+                            <span id="digitalClockDisplay">00:00:00</span>
+                        </div>
+                    </div>
+
+                    <!-- Pertemuan 20 & 21: Konsep MVC & Java Servlet -->
+                    <div class="retro-card module-card">
+                        <div class="retro-card-header">
+                            <span style="font-size: 1.2rem;">👑</span>
+                            <h3 class="retro-card-title">Pertemuan 20 & 21: Arsitektur MVC & Servlet API</h3>
+                        </div>
+                        <p>Pola perancangan pemisahan data (Model), tampilan (View), dan pengendali (Controller) dalam aplikasi Web Enterprise.</p>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div style="background: var(--bg-sub); padding: 1rem; border: 3px solid var(--border-color); border-radius: 4px;">
+                                <h4 style="font-family: var(--font-pixel); font-size: 0.7rem; color: var(--blue-primary); margin-bottom: 0.5rem;">MODEL</h4>
+                                <p style="font-size: 0.85rem;">Mengelola struktur data, koneksi database MySQL/PostgreSQL, serta logika bisnis aplikasi.</p>
+                            </div>
+                            <div style="background: var(--bg-sub); padding: 1rem; border: 3px solid var(--border-color); border-radius: 4px;">
+                                <h4 style="font-family: var(--font-pixel); font-size: 0.7rem; color: var(--blue-primary); margin-bottom: 0.5rem;">VIEW</h4>
+                                <p style="font-size: 0.85rem;">Menampilkan antarmuka pengguna grafis (HTML/JSP/CSS) yang dapat diakses pengguna.</p>
+                            </div>
+                            <div style="background: var(--bg-sub); padding: 1rem; border: 3px solid var(--border-color); border-radius: 4px;">
+                                <h4 style="font-family: var(--font-pixel); font-size: 0.7rem; color: var(--blue-primary); margin-bottom: 0.5rem;">CONTROLLER</h4>
+                                <p style="font-size: 0.85rem;">Java Servlet yang menangkap HTTP Request, memproses data, dan mengarahkan HTTP Response.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Animated Footer Characters -->
+    <footer class="footer-world">
+        <div class="sprite-walker">
+            🍄 🐢 🦖 👑 🎮
+        </div>
+        <p style="font-family: var(--font-pixel); font-size: 0.65rem; color: var(--gray-muted); margin-top: 1rem;">
+            PUJI WEBLAB &copy; 2026 - PUJI DAMAYANTI (NIM: 251091700192) - SISTEM INFORMASI UNPAM
+        </p>
+    </footer>
+
+    <!-- Toast Alert Box -->
+    <div id="toastBox" class="toast">Kode berhasil disalin ke Clipboard! ✨</div>
+
+    <!-- JAVASCRIPT LOGIC & AUDIO MUSIC PLAYER -->
+    <script>
+        var customAudio = new Audio('song.mp3');
+        customAudio.loop = true;
+        customAudio.volume = 0.6;
+
+        function playCoinSound() {
+            try {
+                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var osc = audioCtx.createOscillator();
+                var gain = audioCtx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(987.77, audioCtx.currentTime); 
+                osc.frequency.setValueAtTime(1318.51, audioCtx.currentTime + 0.08); 
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } catch(e) {}
+        }
+
+        function toggleAudioPlay() {
+            playCoinSound();
+            var playBtn = document.getElementById('playAudioBtn');
+            var eqBars = document.querySelectorAll('.eq-bar');
+            
+            if (customAudio.paused) {
+                customAudio.play().then(() => {
+                    playBtn.innerText = "⏸ PAUSE";
+                    eqBars.forEach(b => b.classList.add('active'));
+                }).catch(err => {
+                    console.log("Audio play error:", err);
+                    alert("Pastikan file 'song.mp3' berada di folder yang sama dengan file HTML!");
+                });
+            } else {
+                customAudio.pause();
+                playBtn.innerText = "▶ PLAY";
+                eqBars.forEach(b => b.classList.remove('active'));
+            }
+        }
+
+        function stopAudioPlay() {
+            playCoinSound();
+            if (customAudio) {
+                customAudio.pause();
+                customAudio.currentTime = 0;
+            }
+            document.getElementById('playAudioBtn').innerText = "▶ PLAY";
+            document.querySelectorAll('.eq-bar').forEach(b => b.classList.remove('active'));
+        }
+
+        function handleMp3Upload(evt) {
+            var file = evt.target.files[0];
+            if (file) {
+                customAudio.src = URL.createObjectURL(file);
+                document.getElementById('songTitleDisplay').innerText = "🎵 " + file.name;
+                customAudio.play();
+                document.getElementById('playAudioBtn').innerText = "⏸ PAUSE";
+                document.querySelectorAll('.eq-bar').forEach(b => b.classList.add('active'));
+            }
+        }
+
+        function handleMp3UrlChange(url) {
+            if (url && url.trim() !== "") {
+                customAudio.src = url.trim();
+                document.getElementById('songTitleDisplay').innerText = "🎵 Custom Streaming Track";
+                customAudio.play();
+                document.getElementById('playAudioBtn').innerText = "⏸ PAUSE";
+                document.querySelectorAll('.eq-bar').forEach(b => b.classList.add('active'));
+            }
+        }
+
+        function jumpMario() {
+            playCoinSound();
+            var mario = document.getElementById('marioSprite');
+            mario.style.transform = 'translateY(-20px)';
+            setTimeout(() => mario.style.transform = 'translateY(0)', 200);
+        }
+
+        function hitQuestionBlock() {
+            playCoinSound();
+            var block = document.getElementById('questionBlock');
+            block.classList.add('hit');
+            
+            var coin = document.createElement('div');
+            coin.className = 'coin-popup';
+            coin.innerText = '+100';
+            block.appendChild(coin);
+            
+            setTimeout(() => {
+                block.classList.remove('hit');
+                if (coin.parentNode) coin.parentNode.removeChild(coin);
+            }, 600);
+        }
+
+        function handleProfilePhotoUpload(evt) {
+            var file = evt.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var imgData = e.target.result;
+                    document.getElementById('profileImgDisplay').src = imgData;
+                    localStorage.setItem('puji_weblab_avatar', imgData);
+                    showToast("Foto Profil Berhasil Diperbarui! ✨");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function switchTab(worldId, btn) {
+            playCoinSound();
+            document.querySelectorAll('.tab-content').forEach(tc => tc.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
+            document.getElementById(worldId).style.display = 'block';
+            btn.classList.add('active');
+        }
+
+        function filterModules() {
+            var query = document.getElementById('searchModuleInput').value.toLowerCase();
+            document.querySelectorAll('.module-card').forEach(card => {
+                var text = card.innerText.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        function copyCode(btn) {
+            playCoinSound();
+            var codeText = btn.parentNode.nextElementSibling.querySelector('code').innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                showToast("Kode Berhasil Disalin! ✨");
+            });
+        }
+
+        function showToast(msg) {
+            var toast = document.getElementById('toastBox');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function runIpkSim() {
+            playCoinSound();
+            var kuis = parseFloat(document.getElementById('kuisInput').value) || 0;
+            var tugas = parseFloat(document.getElementById('tugasInput').value) || 0;
+            var na = (0.3 * kuis) + (0.7 * tugas);
+            
+            var pred = "E (Tidak Lulus)";
+            if (na >= 80) pred = "A (Sangat Baik) 🌟";
+            else if (na >= 65) pred = "B (Baik) 👍";
+            else if (na >= 50) pred = "C (Cukup) 👌";
+            
+            var resBox = document.getElementById('ipkResultBox');
+            document.getElementById('ipkText').innerText = pred + " [Nilai Akhir: " + na.toFixed(1) + "]";
+            resBox.style.display = 'block';
+        }
+
+        function runDialogDemo() {
+            playCoinSound();
+            var nama = prompt("Masukkan nama Anda:", "Puji Damayanti");
+            if (nama) {
+                if (confirm("Hai " + nama + ", apakah Anda menikmati web ini?")) {
+                    alert("Luar biasa! Terima kasih telah berkunjung.");
+                }
+            }
+        }
+
+        function updateClock() {
+            var now = new Date();
+            var hrs = String(now.getHours()).padStart(2, '0');
+            var mins = String(now.getMinutes()).padStart(2, '0');
+            var secs = String(now.getSeconds()).padStart(2, '0');
+            var clockEl = document.getElementById('digitalClockDisplay');
+            if (clockEl) clockEl.innerText = hrs + ":" + mins + ":" + secs;
+        }
+
+        window.onload = function() {
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            document.getElementById('songTitleDisplay').innerText = "🎵 Taylor Swift - Cruel Summer";
+
+            var savedAvatar = localStorage.getItem('puji_weblab_avatar');
+            if (savedAvatar) {
+                document.getElementById('profileImgDisplay').src = savedAvatar;
+            }
+        };
+    </script>
+</body>
+</html>
